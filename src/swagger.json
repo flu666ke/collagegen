@@ -1,0 +1,207 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Generate collage API",
+    "description": "Generate collage API information"
+  },
+  "host": "localhost:5000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Collage",
+      "description": "API for creating Collage"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes":[
+    "application/json"
+  ],
+  "produces":[
+    "application/json"
+  ],
+  "paths":{
+    "/collages": {
+      "post":{
+        "summary": "Create collage.",
+        "tags": ["Collage"],
+        "parameters": [
+          {
+            "in":"body",
+            "name": "body",
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "imageUrls": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ImageUrl"
+                  },
+                  "example": [
+                    "https://www.ansys.com/-/media/ansys/corporate/social/partners/partner-ecosystem-1200x600.jpg",
+                    "https://www.esri.com/about/newsroom/wp-content/uploads/2017/09/Podcast_Leading-Companies-Location-Intelligence-BI-CRM_Square-600-x-600.jpg",
+                    "https://kyivartweek.com/wp-content/uploads/2020/08/%D0%9A%D0%BE%D0%BF%D0%B8%D1%8F-Volokitin-600x600.jpg"
+                  ]
+                },
+                "backgroundColor": {
+                  "type": "string",
+                  "example": "AliceBlue"
+                },
+                "layout": {
+                  "type": "object",
+                  "$ref": "#/definitions/CollageLayout"
+                },
+                "size": {
+                  "type": "object",
+                  "$ref": "#/definitions/Size"
+                }
+              }
+            }
+          }
+        ],
+        "produces":[
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+                "$ref": "#/definitions/ResponseCollage"
+            }
+          }
+        }
+      }
+    },
+    "/collages/{collageId}": {
+      "get": {
+        "summary": "Get Collage",
+        "description": "Get Collage",
+        "tags": ["Collage"],
+        "parameters": [
+          {
+            "name": "collageId",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces":[
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+                "$ref": "#/definitions/ResponseCollage"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ImageUrl": {
+      "type": "string"
+    },
+    "RelativeSize":{
+      "type": "object",
+      "properties": {
+        "w":{
+          "type":"number"
+        },
+        "h":{
+          "type":"number"
+        }
+      },
+      "example": {
+        "w": 120,
+        "h": 121
+      }
+    },
+    "Size":{
+      "type": "object",
+      "properties": {
+        "width":{
+          "type":"number"
+        },
+        "height":{
+          "type":"number"
+        }
+      },
+      "example": {
+        "width": 1200,
+        "height": 1210
+      }
+    },
+    "Slot":{
+      "type": "object",
+      "properties": {
+        "x":{
+          "type":"number"
+        },
+        "y":{
+          "type":"number"
+        },
+        "w":{
+          "type":"number"
+        },
+        "h":{
+          "type":"number"
+        }
+      }
+    },
+    "Slots": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Slot"
+      },
+      "example": [
+        {
+          "x": 2,
+          "y": 2,
+          "w": 116,
+          "h": 58
+        },
+        {
+          "x": 2,
+          "y": 62,
+          "w": 57,
+          "h": 57 
+        },
+       {
+          "x": 61,
+          "y": 62,
+          "w": 57,
+          "h": 57 
+        }
+      ]
+    },
+    "CollageLayout":{
+      "type": "object",
+      "properties": {
+        "relativeSize": {
+          "type": "object",
+          "$ref": "#/definitions/RelativeSize"
+        },
+        "slots": {
+          "type":"array",
+          "$ref": "#/definitions/Slots"
+        }
+      }
+    },
+    "ResponseCollage": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
